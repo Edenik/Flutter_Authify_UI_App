@@ -1,6 +1,6 @@
 # Flutter Authify UI 🔓
 
-![Finished App]()
+![Finished App](https://github.com/Edenik/Images/blob/master/Authify%20UI%20App.gif)
 
 
 Tutorial by Hussain Mustafa - 

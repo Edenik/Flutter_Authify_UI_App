@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_authify_ui_app/constants.dart';
-import 'package:flutter_authify_ui_app/pages/home_page.dart';
+import 'package:flutter_authify_ui_app/pages/login_page.dart';
 import 'package:flutter_authify_ui_app/utilities/animations/login_page_animation.dart';
 import 'package:flutter_authify_ui_app/utilities/page_routes/fade_page_route.dart';
+import 'package:flutter_authify_ui_app/utilities/page_routes/slide_page_route.dart';
 
-class AnimatedLoginPage extends StatefulWidget {
+class AnimatedHomePage extends StatefulWidget {
   @override
-  _AnimatedLoginPageState createState() => _AnimatedLoginPageState();
+  _AnimatedHomePageState createState() => _AnimatedHomePageState();
 }
 
-class _AnimatedLoginPageState extends State<AnimatedLoginPage>
+class _AnimatedHomePageState extends State<AnimatedHomePage>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
@@ -31,18 +32,18 @@ class _AnimatedLoginPageState extends State<AnimatedLoginPage>
 
   @override
   Widget build(BuildContext context) {
-    return _LoginPage(_controller);
+    return _HomePage(_controller);
   }
 }
 
-class _LoginPage extends StatelessWidget {
+class _HomePage extends StatelessWidget {
   double _deviceHeight;
   double _deviceWidth;
 
   AnimationController _controller;
   EnterAnimation _animation;
 
-  _LoginPage(this._controller) {
+  _HomePage(this._controller) {
     _animation = EnterAnimation(_controller);
     _controller.forward();
   }
@@ -53,7 +54,7 @@ class _LoginPage extends StatelessWidget {
     _deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: Colors.white,
       body: Align(
         alignment: Alignment.center,
         child: Container(
@@ -66,14 +67,13 @@ class _LoginPage extends StatelessWidget {
             children: <Widget>[
               _avatarWidget(),
               SizedBox(
-                height: _deviceHeight * 0.05,
+                height: _deviceHeight * 0.03,
               ),
-              _emailTextField(),
-              _passwordTextField(),
+              _nameWidget(),
               SizedBox(
                 height: _deviceHeight * 0.10,
               ),
-              _loginButton(context),
+              _logoutButton(context),
             ],
           ),
         ),
@@ -94,7 +94,7 @@ class _LoginPage extends StatelessWidget {
             height: _circleD,
             width: _circleD,
             decoration: BoxDecoration(
-              color: kSecondaryColor,
+              color: kPrimaryColor,
               borderRadius: BorderRadius.circular(500),
               image: DecorationImage(
                 image: AssetImage('assets/images/main_avatar.png'),
@@ -106,79 +106,40 @@ class _LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _emailTextField() {
+  Widget _nameWidget() {
     return Container(
-      width: _deviceWidth * 0.70,
-      child: TextField(
-        cursorColor: Colors.white,
-        autocorrect: false,
+      child: Text(
+        'John Doe',
         style: TextStyle(
-          color: Colors.white,
-        ),
-        decoration: InputDecoration(
-          hintText: 'John.doe@gmail.com',
-          hintStyle: TextStyle(
-            color: Colors.white,
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
-        ),
+            color: kPrimaryColor, fontSize: 35, fontWeight: FontWeight.w400),
       ),
     );
   }
 
-  Widget _passwordTextField() {
-    return Container(
-      width: _deviceWidth * 0.70,
-      child: TextField(
-        obscureText: true,
-        cursorColor: Colors.white,
-        autocorrect: false,
-        style: TextStyle(
-          color: Colors.white,
-        ),
-        decoration: InputDecoration(
-          hintText: 'Password',
-          hintStyle: TextStyle(
-            color: Colors.white,
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _loginButton(BuildContext _context) {
+  Widget _logoutButton(BuildContext _context) {
     return MaterialButton(
       minWidth: _deviceWidth * 0.38,
       height: _deviceHeight * 0.055,
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25.0),
-        side: BorderSide(color: Colors.white),
+        side: BorderSide(
+          color: kPrimaryColor,
+          width: 3,
+        ),
       ),
       child: Text(
-        'LOG IN',
+        'LOG OUT',
         style: TextStyle(
           fontSize: 16,
           color: kPrimaryColor,
           fontWeight: FontWeight.bold,
         ),
       ),
-      onPressed: () async {
-        await _controller.reverse();
+      onPressed: () {
         Navigator.pushReplacement(
           _context,
-          FadePageRoute(AnimatedHomePage()),
+          SlidePageRoute(AnimatedLoginPage()),
         );
       },
     );
